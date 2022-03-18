@@ -2,6 +2,7 @@ const UserModel = require('../model/User');
 const CommentModel = require('../model/Comment');
 const HTTP_STATUS = require('../../../@common/httpStatus');
 const RES_CODE = require('../../../@common/resCode');
+const { beforeDateFormat } = require('../tools/dateFormat')
 
 const getCommentList = async (req, res) => {
   try {
@@ -12,8 +13,10 @@ const getCommentList = async (req, res) => {
     const formatData = data.map((comment) => {
       const { likedCommentIds } = user
       const isMine = comment.uid === uid;
+      
       comment.allowedDelete = isMine;
       comment.liked = likedCommentIds.indexOf(comment.cid) >= 0;
+      comment.date = beforeDateFormat(comment.date)
 
       return comment;
     });
