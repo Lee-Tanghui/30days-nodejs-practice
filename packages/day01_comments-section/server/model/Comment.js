@@ -84,6 +84,9 @@ CommentSchema.statics = {
   },
   async delete(cid) {
     return await this.deleteOne({ cid })
+  },
+  async getByCid(cid) {
+    return await this.findOne({ cid }).lean()
   }
 };
 

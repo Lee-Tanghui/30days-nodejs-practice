@@ -24,7 +24,9 @@ server.use(
     secret: config.SESSION_SECRET,
     saveUninitialized: false,
     resave: false,
-    cookie: config.LOCAL_BASE_URL,
+    cookie: {
+      maxAge: config.COOKIE_MAX_AGE
+    },
     store: MongoStore.create({ mongoUrl }), // session持久化
   })
 );

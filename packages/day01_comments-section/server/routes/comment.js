@@ -11,9 +11,14 @@ const {
   deleteCommentSchame,
 } = require('../validation/comment.schema');
 const validateRequest = require('../middleware/validate');
+const checkUser = require('../middleware/checkUser');
 
 router.get('/', getCommentList);
 router.post('/', validateRequest(addCommentSchmea), addComment);
-router.delete('/', validateRequest(deleteCommentSchame), deleteComment);
+router.delete(
+  '/',
+  [validateRequest(deleteCommentSchame), checkUser],
+  deleteComment
+);
 
 module.exports = router;
