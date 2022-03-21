@@ -2,7 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const chalk = require('chalk')
 
+const { errorHandler } = require('./middleware/error')
 const config = require('../config/server.config');
 const route = require('../server/routes');
 const userSession = require('../server/middleware/userSession');
@@ -29,13 +31,15 @@ server.use(
 
 server.use(userSession);
 server.use('/api', route);
+server.use(errorHandler)
 server.all('*', async (req, res) => {
   return handle(req, res);
 });
 
 server.listen(port, (err) => {
   if (err) throw err;
-  console.log(`> Ready on ${process.env.LOCAL_HOST}`);
+  config.NODE_ENV === 'development' && 
+  console.log(chalk.green(`🚀Ready on ${config.LOCAL_BASE_URL}`));
 });
 
 module.exports = server;

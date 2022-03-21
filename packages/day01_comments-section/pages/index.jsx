@@ -65,7 +65,6 @@ function HomePage({ data }) {
 
   // 删除评论
   const deleteComment = async (cid) => {
-    console.log(cid)
     const res = await fetctCommentDel(cid);
     if (!res.code) {
       message.success('删除成功')
