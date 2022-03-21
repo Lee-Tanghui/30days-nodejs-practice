@@ -1,5 +1,5 @@
 const UserModel = require('../model/User')
-const RES_CODE = require('../../../@common/resCode');
+const RES_CODE = require('../tools/resCode');
 const resClient = require('../tools/resClient')
 
 const toggleLike = async(req, res, next) => {

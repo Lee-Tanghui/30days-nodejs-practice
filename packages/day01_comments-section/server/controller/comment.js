@@ -1,9 +1,9 @@
 const UserModel = require('../model/User');
 const CommentModel = require('../model/Comment');
-const RES_CODE = require('../../../@common/resCode');
+const RES_CODE = require('../tools/resCode');
 const { beforeDateFormat } = require('../tools/dateFormat');
 const resClient = require('../tools/resClient');
-const HTTP_STATUS = require('../../../@common/httpStatus');
+const HTTP_STATUS = require('../tools/httpStatus');
 
 const getCommentList = async (req, res, next) => {
   try {

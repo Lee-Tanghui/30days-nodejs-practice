@@ -1,5 +1,5 @@
-const HTTP_STATUS = require('../../../@common/httpStatus');
-const RES_CODE = require('../../../@common/resCode');
+const HTTP_STATUS = require('../tools/httpStatus');
+const RES_CODE = require('../tools/resCode');
 const CommentModel = require('../model/Comment');
 const resClient = require('../tools/resClient');
 
