@@ -2,6 +2,8 @@ const UserModel = require('../model/User');
 const CommentModel = require('../model/Comment');
 const RES_CODE = require('../../../@common/resCode');
 const { beforeDateFormat } = require('../tools/dateFormat');
+const resClient = require('../tools/resClient');
+const HTTP_STATUS = require('../../../@common/httpStatus');
 
 const getCommentList = async (req, res, next) => {
   try {
@@ -20,10 +22,7 @@ const getCommentList = async (req, res, next) => {
       return comment;
     });
 
-    res.json({
-      code: RES_CODE.SUCCESS,
-      data: formatData,
-    });
+    resClient.success({ res, data: formatData });
   } catch (error) {
     next(error);
   }
@@ -41,14 +40,9 @@ const addComment = async (req, res, next) => {
     };
     const modelRes = await CommentModel.add(data);
     if (modelRes) {
-      res.json({
-        code: RES_CODE.SUCCESS,
-      });
+      resClient.success({ res });
     } else {
-      res.json({
-        code: RES_CODE.ERROR,
-        errMsg: '留言失败',
-      });
+      resClient.error({ res, errMsg: '留言失败' });
     }
   } catch (error) {
     next(error);
@@ -60,17 +54,16 @@ const deleteComment = async (req, res, next) => {
     const { cid } = req.query;
     const modelRes = await CommentModel.delete(cid);
     if (modelRes.deletedCount) {
-      res.json({
-        code: RES_CODE.SUCCESS,
-      });
+      resClient.success({ res });
     } else {
-      res.json({
-        code: RES_CODE.ERROR,
-        errMsg: '删除失败',
+      resClient.error({
+        res,
+        errMsg: '留言失败',
+        status: HTTP_STATUS.BAD_REQUEST,
       });
     }
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
