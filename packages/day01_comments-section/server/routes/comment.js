@@ -7,17 +7,17 @@ const {
   deleteComment,
 } = require('../controller/comment');
 const {
-  addCommentSchmea,
-  deleteCommentSchame,
+  addCommentSchema,
+  deleteCommentSchema,
 } = require('../validation/comment.schema');
 const validateRequest = require('../middleware/validate');
 const checkUser = require('../middleware/checkUser');
 
 router.get('/', getCommentList);
-router.post('/', validateRequest(addCommentSchmea), addComment);
+router.post('/', validateRequest(addCommentSchema), addComment);
 router.delete(
   '/',
-  [validateRequest(deleteCommentSchame), checkUser],
+  [validateRequest(deleteCommentSchema), checkUser],
   deleteComment
 );
 
