@@ -7,11 +7,13 @@ const BlogSchema = new Schema({
   bid: {
     type: String,
     required: true,
+    index: true,
   },
   // 用户id
   uid: {
     type: String,
     required: true,
+    index: true,
   },
   // 标题
   title: {
@@ -27,6 +29,9 @@ const BlogSchema = new Schema({
   create_date: {
     type: String,
     required: true,
+    index: {
+      expires: 60 * 60 * 24, // 24小时过期删除
+    }
   },
 });
 
@@ -52,13 +57,29 @@ BlogSchema.statics = {
   /**
    * @desc 查询某用户的博客列表
    * @param {String} uid 用户id
-   * @returns 
+   * @param {Number} page 当前页码
+   * @param {Number} pageSize 每页条数
+   * @returns
    */
-  async get(uid) {
+  async get({ uid, page, pageSize }) {
     return await this.find({ uid }, { _id: 0, __v: 0, uid: 0 })
       .sort({ create_date: -1 })
-      .limit(10)
+      .skip((page - 1) * pageSize)
+      .limit(pageSize)
       .lean();
+  },
+  /**
+   * @desc 获取某用户的博客的总条数
+   */
+  async getCount(uid) {
+    return await this.find({ uid }).count();
+  },
+  /**
+   * @desc 获取博客内容
+   * @param {String} param.bid 博客id
+   */
+  async getBlogContent(bid) {
+    return await this.findOne({ bid }, { _id: 0, __v: 0 }).lean();
   },
 };
 

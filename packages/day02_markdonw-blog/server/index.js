@@ -17,7 +17,9 @@ const app = require('../app');
 const handle = app.getRequestHandler();
 const server = express();
 
+server.use(errorHandler);
 server.use(express.static('assets'));
+server.use(express.static('public'));
 server.use(bodyParser.json({ limit: '4mb' }));
 server.use(
   session({
@@ -34,7 +36,6 @@ server.use(
 
 server.use(userSession);
 server.use('/api', route);
-server.use(errorHandler);
 server.all('*', async (req, res) => {
   return handle(req, res);
 });

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import MarkdownIt from 'markdown-it';
 import dynamic from 'next/dynamic';
 import { CloudUploadOutlined } from '@ant-design/icons';
@@ -14,19 +15,6 @@ const MdEditor = dynamic(() => import('react-markdown-editor-lite'), {
   ssr: false,
 });
 const mdParser = new MarkdownIt();
-const onImageUpload = function (file) {
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = async (data) => {
-      const dataURL = data.target.result;
-      const res = await fetchUploadImage(dataURL);
-      if (!res.code) {
-        resolve(res.data);
-      }
-    };
-  });
-};
 
 function mdPage() {
   const router = useRouter();
@@ -38,21 +26,54 @@ function mdPage() {
     setContent(text);
   };
 
+  const onImageUpload = function (file) {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = async (data) => {
+        const dataURL = data.target.result;
+        const res = await fetchUploadImage(dataURL);
+        if (!res.code) {
+          resolve(res.data);
+        }
+      };
+    });
+  };
+
+  const validate = function (title, content) {
+    if (!title) {
+      message.error('请填写文章标题');
+      return false;
+    }
+    if (!content) {
+      message.error('请填写文章内容');
+      return false;
+    }
+
+    return true;
+  };
+
   const onPublish = async function () {
-    setDisabled(true)
-    const res = await fetchCreateBlog({ title, content });
-    if (!res.code) {
-      message.success(res.data);
-      setTimeout(() => {
-        router.push('/');
-      }, 500);
-    } else {
-      setDisabled(false)
+    const valid = validate(title, content);
+    if (valid) {
+      setDisabled(true);
+      const res = await fetchCreateBlog({ title, content });
+      if (!res.code) {
+        message.success(res.data);
+        setTimeout(() => {
+          router.push('/');
+        }, 500);
+      } else {
+        setDisabled(false);
+      }
     }
   };
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
+      <Head>
+        <title>Blog-创建</title>
+      </Head>
       <Row>
         <Card className='w-full'>
           <Row className='flex pb-6'>
