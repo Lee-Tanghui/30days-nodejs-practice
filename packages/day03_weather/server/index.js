@@ -9,6 +9,9 @@ const config = require('../config/server.config');
 const route = require('../server/routes');
 const userSession = require('../server/middleware/userSession');
 
+const saveWeatherJob = require('./cron/saveWeatherJob')
+// saveWeatherJob.start()
+
 const port = config.PORT;
 const mongoUrl = config.MONGO_URL;
 

@@ -29,4 +29,6 @@ const redis = {
   },
 };
 
-module.exports = redis;
+
+
+module.exports = redis
