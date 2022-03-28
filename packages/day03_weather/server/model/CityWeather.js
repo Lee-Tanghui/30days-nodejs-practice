@@ -1,44 +1,42 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const WeatherInfoSchema = new Schema(
-  {
-    date: String,
-    week: String,
-    dayweather: String,
-    nightweather: String,
-    daytemp: String,
-    nighttemp: String,
-    daywind: String,
-    nightwind: String,
-    daypower: String,
-    nightpower: String,
-  },
-  {
-    _id: false,
-  }
-);
-
 const CityWeatherSchema = new Schema({
+  province: {
+    type: String,
+    required: true,
+  },
   city: {
     type: String,
     required: true,
   },
   adcode: {
     type: String,
-    required: true,
+    required: String,
     index: true,
+  },
+  weather: {
+    type: String,
+    required: true,
+  },
+  temperature: {
+    type: String,
+    required: true,
+  },
+  winddirection: {
+    type: String,
+    required: true,
+  },
+  windpower: {
+    type: String,
+    required: true,
+  },
+  humidity: {
+    type: String,
+    required: true,
   },
   reporttime: {
     type: Date,
-    required: true,
-    index: true,
-  },
-  live: {
-    type: WeatherInfoSchema,
-  },
-  casts: {
-    type: [WeatherInfoSchema],
     required: true,
   },
 });

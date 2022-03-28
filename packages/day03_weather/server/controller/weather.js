@@ -4,6 +4,7 @@ const redis = require('../db/redis');
 const CityWeatherModel = require('../model/CityWeather');
 const { getRedisCityWeatherKey } = require('../tools/redisHelper');
 const cityList = require('../store/city.json');
+const { fetchWeatherData } = require('../service/weather')
 
 const getCityData = async (req, res, next) => {
   try {
@@ -53,7 +54,17 @@ const getWeatherData = async (req, res, next) => {
   }
 };
 
+const getTest = async (req, res, next) => {
+  try {
+    const response = await fetchWeatherData();
+    res.json(response);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getCityData,
   getWeatherData,
+  getTest,
 };

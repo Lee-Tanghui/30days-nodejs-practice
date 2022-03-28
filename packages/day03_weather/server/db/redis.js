@@ -9,14 +9,17 @@ const redis = {
     return new Promise(async (resolve, reject) => {
       try {
         const client = createClient();
+        const isDev = config.NODE_ENV === 'development';
 
         client.on('error', (error) => {
           logger.error(error);
+          if (isDev) {
+            console.error('Redis连接失败：', error)
+          }
         });
 
         await client.connect();
-        config.NODE_ENV === 'development' &&
-          console.log(chalk.green(`✅Redis connected`));
+        isDev && console.log(chalk.green(`✅Redis connected`));
 
         redis.client = client;
 
@@ -29,6 +32,4 @@ const redis = {
   },
 };
 
-
-
-module.exports = redis
+module.exports = redis;

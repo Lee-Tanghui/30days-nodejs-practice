@@ -1,4 +1,5 @@
 export default {
-  hello: '/api/hello', 
+  cityList: '/api/weather/city',
+  weather: '/api/weather/',
 };
 
