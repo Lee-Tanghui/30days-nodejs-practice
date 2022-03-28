@@ -15,8 +15,8 @@ const onTick = async function () {
     // 获取Redis的所有缓存数据
     const targetKey = getRedisCityWeatherKey('*');
     const keys = await redis.client.keys(targetKey);
+    // 清楚缓存数据
     if (keys && keys.length) {
-      console.log(...keys);
       await redis.client.del(keys);
     }
     logger.info('saveWeatherJob-定时任务执行成功');

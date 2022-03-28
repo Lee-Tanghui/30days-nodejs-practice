@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import { Layout, Row, Col, Card, Skeleton } from 'antd';
 import { fetchCityList, fetchCityWeather } from '../api/model';
@@ -42,6 +43,9 @@ function HomePage() {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
+      <Head>
+        <title>省会城市-天气查询</title>
+      </Head>
       <Row className='mt-8' justify='center'>
         <Col md={12} sm={24} xs={24}>
           <CityPicker

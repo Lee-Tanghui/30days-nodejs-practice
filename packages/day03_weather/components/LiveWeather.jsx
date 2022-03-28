@@ -18,6 +18,7 @@ function LiveWeather({ wetherInfo = {} }) {
       <div>数据发布时间：{moment(reporttime).format('MM-DD HH:mm')}</div>
       <div className='pt-4  text-xl'>
         <span>{province}</span>
+        <span className='px-2'>-</span>
         <span>{city}</span>
       </div>
       <div>
