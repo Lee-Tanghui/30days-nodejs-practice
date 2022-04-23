@@ -1,9 +1,6 @@
 import request from './request';
 import api from './api.js';
 
-export async function fetchHello() {
-  return request.get(api.hello).then((data) => data);
-}
 
 export async function fetchList(page) {
   return request.get(api.upload, { params: { page } }).then((data) => data);
