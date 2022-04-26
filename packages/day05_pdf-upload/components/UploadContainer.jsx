@@ -1,28 +1,23 @@
 import { Upload, message, Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { fetchUpload } from '../api/model';
+import filesize from 'filesize';
 
 const MAX_SIZE = 40 * 1000 * 1000;
 
 function UploadContainer({ onChange }) {
   const props = {
     accept: 'application/pdf',
-    customRequest: (option) => {
+    customRequest: async (option) => {
       const file = option.file;
-      const fileReader = new FileReader();
-      fileReader.readAsArrayBuffer(file);
-      fileReader.onload = async (event) => {
-        if (event.loaded >= MAX_SIZE) {
-          message.error('最大只支持40M的文件！');
-          return;
-        }
-        const data = event.target.result;
-        const result = await fetchUpload({
-          file: data,
-          path: './mypath',
-        });
-        console.log(result);
-      };
+      if (file.size >= MAX_SIZE) {
+        return message.error(`文件过大，最大只支持${filesize(MAX_SIZE)}`);
+      }
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const res = await fetchUpload(formData);
+      console.log(res);
     },
     onChange(info) {
       if (info.file.status === 'done') {

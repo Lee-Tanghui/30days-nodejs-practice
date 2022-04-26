@@ -21,6 +21,7 @@
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "express-session": "^1.17.2",
+    "filesize": "^8.0.7",
     "install": "^0.13.0",
     "joi": "^17.6.0",
     "mongodb": "^4.4.1",

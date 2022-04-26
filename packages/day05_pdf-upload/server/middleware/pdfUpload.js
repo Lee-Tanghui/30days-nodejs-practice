@@ -1,20 +1,16 @@
-const express = require('express');
 const multer = require('multer');
 const path = require('path');
-const { uploadFile } = require('../controller/upload');
-
-const router = express.Router();
 
 // multer路由中间件（用于处理formData）
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const path = req.header['x-path'];
     // 判断文件是否过大
-
+    console.log('destination:', file)
     // 判断path是否存在
     if (!path) {
-      cb(new Error('路径不存在'));
-      return 
+      cb('路径不存在');
+      return;
     }
     // 判断是否有同名文件存在
 
@@ -28,6 +24,4 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }).any();
 
-router.post('/', uploadFile);
-
-module.exports = router;
+module.exports = upload
